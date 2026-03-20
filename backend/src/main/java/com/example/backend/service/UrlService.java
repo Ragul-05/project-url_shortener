@@ -58,11 +58,19 @@ public class UrlService {
         url.setAnalyticsSummary(analyticsSummary);
 
         Url savedUrl = urlRepository.save(url);
-        urlMetadataService.ensureMetadata(savedUrl);
+
+        try {
+            urlMetadataService.ensureMetadata(savedUrl);
+        } catch (Exception ignored) {
+            // Log error if possible, but don't fail the request
+        }
+
+        String cleanBaseUrl = baseUrl.endsWith("/") ? baseUrl.substring(0, baseUrl.length() - 1) : baseUrl;
+
         return new ShortenUrlResponse(
                 savedUrl.getId(),
                 savedUrl.getShortCode(),
-                baseUrl + "/" + savedUrl.getShortCode(),
+                cleanBaseUrl + "/" + savedUrl.getShortCode(),
                 savedUrl.isActive(),
                 savedUrl.getExpiryDate(),
                 savedUrl.getCreatedAt()
