@@ -1,0 +1,42 @@
+spring:
+  application:
+    name: backend
+
+  profiles:
+    active: dev
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/URLDB
+    username: postgres
+    password: Ragul
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+server:
+  port: 8081
+
+app:
+  base-url: http://localhost:8081
+
+  ai:
+    gemini:
+      api-url: https://generativelanguage.googleapis.com/v1beta/models/%s:generateContent
+      model: gemini-2.5-flash
+      api-key: AIzaSyDPNNWSeggPmU4GeMiAVQ1rVnn_V5t3v0E
+      fallback-models: gemini-2.5-flash-lite,gemini-2.0-flash
+
+  jwt:
+    secret: sjkdfhsdfdshfrhfyuerhfyeurgyuerbvdvnjheriuheryt8trh487yr43u8hcn34uh
+    expiration-ms: 86400000
+
+logging:
+  level:
+    org.springdoc: DEBUG
+    org.springframework.web: DEBUG

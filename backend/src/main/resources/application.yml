@@ -1,0 +1,42 @@
+spring:
+  application:
+    name: ${SPRING_APPLICATION_NAME:backend}
+
+  profiles:
+    active: dev
+
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+server:
+  port: ${SERVER_PORT:8081}
+
+app:
+  base-url: ${APP_BASE_URL}
+
+  ai:
+    gemini:
+      api-url: ${GEMINI_API_URL}
+      model: ${GEMINI_MODEL}
+      api-key: ${GEMINI_API_KEY}
+      fallback-models: ${GEMINI_FALLBACK_MODELS}
+
+  jwt:
+    secret: ${JWT_SECRET}
+    expiration-ms: ${JWT_EXPIRATION_MS}
+
+logging:
+  level:
+    org.springdoc: DEBUG
+    org.springframework.web: DEBUG

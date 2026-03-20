@@ -1,0 +1,14 @@
+# Use Java 21 (since you use JDK 21)
+FROM eclipse-temurin:21-jdk
+
+# Set working directory
+WORKDIR /app
+
+# Copy jar file
+COPY target/app.jar app.jar
+
+# Expose port
+EXPOSE 8081
+
+# Run application
+ENTRYPOINT ["java", "-jar", "app.jar"]
