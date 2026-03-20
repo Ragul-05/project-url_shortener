@@ -8,7 +8,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
-import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,9 +35,4 @@ public class AnalyticsSummary {
 
     @Column(name = "last_clicked_at")
     private LocalDateTime lastClickedAt;
-
-    @PrePersist
-    public void prePersist() {
-        this.totalClicks = 0L;
-    }
 }

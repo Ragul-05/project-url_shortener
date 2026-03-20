@@ -8,9 +8,9 @@ import com.example.backend.dto.UrlDashboardItemResponse;
 import com.example.backend.dto.UrlMetadataResponse;
 import com.example.backend.response.ApiResponse;
 import com.example.backend.service.UrlService;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.net.URI;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -71,10 +71,11 @@ public class UrlController {
     }
 
     @GetMapping("/{shortCode}")
-    public ResponseEntity<Void> redirectToOriginalUrl(@PathVariable String shortCode) {
+    public void redirectToOriginalUrl(@PathVariable String shortCode, HttpServletResponse response) throws IOException {
         String originalUrl = urlService.getOriginalUrl(shortCode);
-        return ResponseEntity.status(HttpStatus.FOUND)
-                .header(HttpHeaders.LOCATION, URI.create(originalUrl).toString())
-                .build();
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        response.setHeader("Pragma", "no-cache");
+        response.setDateHeader("Expires", 0);
+        response.sendRedirect(originalUrl);
     }
 }
